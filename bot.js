@@ -46,8 +46,11 @@ bot.on('messageCreate', async (msg) => {
   await addLog(`${msg.author.username}#${msg.author.id} - "${msg.content}"`, false, 'msg');
 });
 
-(async function () {
-  await addLog('Starting application...');
-  log('Bot is starting...');
+const startBot = async () => {
+  log('Starting bot...');
   await bot.connect();
-}());
+};
+
+module.exports = {
+  startBot,
+};
