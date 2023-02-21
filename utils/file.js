@@ -6,6 +6,9 @@ const moment = require('moment');
 const { err: error, logMsg, errMsg } = require('./func');
 
 const isFileExist = async (filepath) => {
+  if (process.env.DISABLE_LOG_FILE) {
+    return false;
+  }
   try {
     await readFile(filepath);
     return true;
@@ -15,6 +18,9 @@ const isFileExist = async (filepath) => {
 };
 
 const addLog = async (content, isError = false, namePrefix = '') => {
+  if (process.env.DISABLE_LOG_FILE) {
+    return false;
+  }
   const current = moment().format('YYYY-MM');
   try {
     const filepath = namePrefix
@@ -42,6 +48,9 @@ const addLog = async (content, isError = false, namePrefix = '') => {
  * @returns {string} filepath after create (or current)
  */
 const getLogFile = async (folderPath = '/logs') => {
+  if (process.env.DISABLE_LOG_FILE) {
+    return false;
+  }
   const current = moment().format('YYYY-MM');
   const logFile = path.join(folderPath, `${current}.log`);
   const res = await readFile(logFile, { encoding: 'utf-8' });
