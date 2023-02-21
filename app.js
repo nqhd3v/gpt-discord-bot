@@ -10,7 +10,7 @@ app.get('/', (req, res) => {
 });
 
 // Initialize server
-app.listen(5000, async () => {
+app.listen(50000, async () => {
   log('App running on port 5000.');
   await bot.startBot();
 });
