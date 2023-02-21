@@ -1,5 +1,6 @@
 const Eris = require('eris');
 const { Configuration, OpenAIApi } = require('openai');
+const { addLog } = require('./utils/file');
 const {
   log, err, logWithoutTime, errWithoutTime,
 } = require('./utils/func');
@@ -24,24 +25,29 @@ async function runCompletion(message) {
   return completion.data.choices[0].text;
 }
 
-bot.on('ready', () => {
+bot.on('ready', async () => {
   log('Bot is running...');
+  await addLog('Bot is ready to receive request from client....');
 });
 
-bot.on('error', (error) => {
+bot.on('error', async (error) => {
   err('Error when reply for new message:');
   errWithoutTime(error);
+  await addLog(`Error when handle request: ${error}`, true);
 });
-
 bot.on('messageCreate', async (msg) => {
-  // log('New message:', msg);
-  if (/^#gpt /.test(msg.content)) {
+  if (/^@@ /.test(msg.content)) {
     log(`New message from '${msg.author.username}#${msg.author.id}':`);
-    const question = msg.content.replace('#gpt ', '');
+    const question = msg.content.replace('@@ ', '');
     logWithoutTime(`"${question}"`);
     const botMsg = await runCompletion(question);
     await bot.createMessage(msg.channel.id, botMsg);
   }
+  await addLog(`${msg.author.username}#${msg.author.id} - "${msg.content}"`, false, 'msg');
 });
 
-bot.connect();
+(async function () {
+  await addLog('Starting application...');
+  log('Bot is starting...');
+  await bot.connect();
+}());

@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 const moment = require('moment');
 const { TIME_DATE_STR } = require('./constants');
 
@@ -8,5 +9,11 @@ const err = (...messages) => console.error('\x1b[31m', now(), '-', ...messages, 
 const errWithoutTime = (...messages) => console.error('\x1b[31m', '                         ', ...messages, '\x1b[0m');
 
 module.exports = {
-  now, log, err, logWithoutTime, errWithoutTime,
+  now,
+  log,
+  err,
+  logWithoutTime,
+  errWithoutTime,
+  logMsg: (...msg) => [now(), '- LOGGING -', ...msg].join(' '),
+  errMsg: (...msg) => [now(), '- ERROR   -', ...msg].join(' '),
 };

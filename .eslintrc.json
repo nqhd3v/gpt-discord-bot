@@ -11,5 +11,7 @@
         "ecmaVersion": "latest"
     },
     "rules": {
+        "no-useless-catch": "off",
+        "func-names": "off"
     }
 }
