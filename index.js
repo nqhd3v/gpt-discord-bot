@@ -51,6 +51,4 @@ const startBot = async () => {
   await bot.connect();
 };
 
-module.exports = {
-  startBot,
-};
+startBot();
